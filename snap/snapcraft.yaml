@@ -1,0 +1,32 @@
+name: iotedgectl
+version: preview
+summary: azure-iot-edge-runtime-ctl
+description: Azure IoT Edge v2 preview
+
+grade: devel
+confinement: devmode
+
+plugs:
+  support:
+    interface: docker-support
+  privileged:
+    interface: docker-support
+    privileged-containers: true
+  docker-cli:
+    interface: docker
+  docker-executables:
+    content: docker-executables
+    default-provider: docker
+    interface: content
+    target: docker-env
+
+apps:
+  iotedgectl:
+    command: usr/local/bin/iotedgectl
+    plugs: [network, docker-executables, docker-cli, privileged, home]
+
+parts:
+  iotedgectl:
+    install: pip install -U azure-iot-edge-runtime-ctl
+    plugin: python
+    python-version: python3
